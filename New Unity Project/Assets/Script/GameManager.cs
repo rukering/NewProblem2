@@ -6,8 +6,8 @@ public class GameManager : MonoBehaviour
     public GameObject bulletPrefab;
     public TextMeshPro BulletCount;
     public int poolSize = 10;
-
-    private MyQueue<GameObject> bulletPool = new MyQueue<GameObject>();
+    
+    private QueueStack<GameObject> bulletPool = new QueueStack<GameObject>();
 
     void Start()
     {
@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
         {
             GameObject bullet = Instantiate(bulletPrefab, Vector3.zero, Quaternion.identity);
             bullet.SetActive(false);
-            bulletPool.Enqueue(bullet);
+            bulletPool.Push(bullet);
         }
     }
 
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     {
         if (bulletPool.Count > 0)
         {
-            GameObject bullet = bulletPool.Dequeue();
+            GameObject bullet = bulletPool.Pop();
             bullet.SetActive(true);
         }
         else
@@ -45,6 +45,6 @@ public class GameManager : MonoBehaviour
     public void ReturnBullet(GameObject bullet)
     {
         bullet.SetActive(false);
-        bulletPool.Enqueue(bullet);
+        bulletPool.Push(bullet);
     }
 }
